@@ -118,27 +118,28 @@
   // All sizes are in screen pixels for the current stage, so the map is re-laid out (not just scaled) on resize.
   function layout(W, H) {
     const m = Math.min(W, H), small = W < 600, major = focus === ROOT, kids = focus.children;
-    const r = major ? clamp(m * 0.055, 24, 40) : clamp(m * 0.034, 15, 23);
-    const fs = major ? clamp(m * 0.03, 15, 21) : clamp(m * 0.024, 12.5, 15.5);
-    const lw = major ? clamp(W * 0.2, 96, 190) : clamp(W * (small ? 0.3 : 0.14), 92, 160);
+    // phones: smaller medallions, narrower labels and a tall ring shape, so text stays readable when fitted
+    const r = major ? clamp(m * 0.055, 24, 40) : small ? 13 : clamp(m * 0.034, 15, 23);
+    const fs = major ? clamp(m * 0.03, 15, 21) : small ? 13.5 : clamp(m * 0.024, 12.5, 15.5);
+    const lw = major ? clamp(W * 0.2, 96, 190) : small ? 104 : clamp(W * 0.14, 92, 160);
     const items = kids.map(n => {
       const lines = wrapPx(n.name, fs, lw);
       const w = Math.max(2 * r, ...lines.map(l => tw(l, fs)));
       const hasCt = isGroup(n) && n.count > 0;
       return { n, lines, w, r, fs, h: 2 * r + 10 + lines.length * fs * 1.12 + (hasCt ? 14 : 0), hasCt };
     });
-    const hubR = major ? clamp(m * 0.11, 44, 74) : clamp(m * 0.1, 46, 76);
+    const hubR = major ? clamp(m * 0.11, 44, 74) : small ? 40 : clamp(m * 0.1, 46, 76);
     const maxW = Math.max(0, ...items.map(i => i.w)), maxH = Math.max(0, ...items.map(i => i.h));
     const avgW = items.length ? items.reduce((a, i) => a + i.w, 0) / items.length : 0;
     const e = clamp(H / W, 0.7, 1.45);                       // ring shape follows the screen: wide, square or tall
-    const gapX = 18, gapY = 16;
+    const gapX = small ? 8 : 18, gapY = small ? 10 : 16;
     // first ring far enough that labels of the top node clear the hub; next rings one node height further out
     let rx = Math.max(hubR + r + 26, (hubR + maxH + 18) / e), stepX = Math.max(maxW * 0.62, (maxH + gapY + 10) / e);
     const rings = [];
     let left = items.length;
     while (left > 0) {
       const ry = rx * e, per = 2 * Math.PI * Math.sqrt((rx * rx + ry * ry) / 2);
-      const cap = Math.max(1, Math.floor(per / ((items.length > 24 ? avgW * 1.08 : maxW) + gapX)));
+      const cap = Math.max(1, Math.floor(per / ((items.length > 24 || small ? avgW * 1.08 : maxW) + gapX)));
       rings.push({ rx, ry, cap }); left -= cap; rx += stepX;
     }
     // share the nodes between rings in proportion to their capacity, inner rings first
@@ -166,10 +167,10 @@
     h.append("circle").attr("class", "ring-i").attr("r", hubR - 7).style("stroke", colorOf(focus));
     let px = clamp(hubR * 0.36, 16, 28), lines = wrapPx(focus.name, px, hubR * 1.55, 3);
     while (lines.length > 3 || Math.max(...lines.map(l => tw(l, px, 600))) > hubR * 1.7) { px -= 1; lines = wrapPx(focus.name, px, hubR * 1.55, 3); if (px < 11) break; }
-    const ctH = 14, total = lines.length * px * 1.05 + ctH, y0 = -total / 2 + px * 0.8;
+    const showCt = hubR >= 46, ctH = showCt ? 14 : 0, total = lines.length * px * 1.05 + ctH, y0 = -total / 2 + px * 0.8;
     const t = h.append("text").attr("class", "nm").style("font-size", px + "px");
     lines.forEach((l, i) => t.append("tspan").attr("x", 0).attr("y", y0 + i * px * 1.05).text(l));
-    h.append("text").attr("class", "ct").attr("y", y0 + lines.length * px * 1.05 + 4).style("font-size", "9.5px")
+    if (showCt) h.append("text").attr("class", "ct").attr("y", y0 + lines.length * px * 1.05 + 4).style("font-size", "9.5px")
       .text(`${nf(focus.count)} ${focus.count === 1 ? "IDEA" : "IDEAS"}`);
     h.append("title").text(`Back to ${focus.parent.name}`);
   }
@@ -218,7 +219,7 @@
     showMap();
     if (isGroup(n)) { focus = n; sel = null; } else { sel = n; focus = n.parent || ROOT; }
     render(); renderSide();
-    if (!isGroup(n) || n.card) Reader.open(n);
+    if (!isGroup(n) || n.card) Reader.open(n); else if (Reader.isOpen()) Reader.close();
   }
   function openNode(n) { if (location.hash.slice(1) === n.key) show(n); else location.hash = n.key; }
   function route() {
