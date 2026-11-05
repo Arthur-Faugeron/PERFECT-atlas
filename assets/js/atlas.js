@@ -54,7 +54,7 @@
   const NOW = Date.now();
   const VIDEOS = DATA.videos.map(v => ({ ...v, nodes: v.nodes.map(i => BY.get(i)).filter(Boolean) }));
   VIDEOS.forEach(v => v.nodes.forEach(n => n.videos.push(v)));
-  const aired = VIDEOS.filter(v => v.status === "published" && v.at && Date.parse(v.at) <= NOW);
+  const aired = VIDEOS.filter(v => (v.status === "published" || v.status === "scheduled") && v.at && Date.parse(v.at) <= NOW);
   const LATEST = aired[aired.length - 1];
   const NEW = new Set(LATEST ? LATEST.nodes : []);
   const LECT = DATA.lectures.map(l => ({ id: l.id, vol: l.volume, ch: l.chapter, chapter: l.chapter_title, title: l.title }));
