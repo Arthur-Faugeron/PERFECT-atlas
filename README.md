@@ -11,3 +11,9 @@ historical events, people and tools, linked to one another and to the chapters o
 Open the atlas: https://arthur-faugeron.github.io/PERFECT-atlas/
 
 Educational content. Not investment advice.
+
+## Licence
+
+- Site code: [MIT](LICENSE).
+- Content (cards, texts, data, images): [CC BY-NC-SA 4.0](LICENSE-CONTENT). Share and adapt with credit to PERFECT,
+  not for commercial use, under the same licence.
