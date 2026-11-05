@@ -10,7 +10,7 @@ const Reader = (() => {
 
   async function fetchText(url) {
     if (cache.has(url)) return cache.get(url);
-    try { const r = await fetch(url); if (!r.ok) throw new Error(r.status); const t = await r.text(); cache.set(url, t); return t; }
+    try { const r = await fetch(url, { cache: "no-cache" }); if (!r.ok) throw new Error(r.status); const t = await r.text(); cache.set(url, t); return t; }
     catch (e) { return null; }
   }
 

@@ -12,7 +12,7 @@
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const day = s => s ? new Date(s).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : "";
 
-  const DATA = await fetch("data/atlas.json").then(r => r.ok ? r.json() : null).catch(() => null);
+  const DATA = await fetch("data/atlas.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : null).catch(() => null);
   if (!DATA) {
     $("stage").innerHTML = '<p style="padding:24px;max-width:46ch">The atlas data could not be loaded. If you opened the file directly, serve the folder with a local web server instead.</p>';
     return;
