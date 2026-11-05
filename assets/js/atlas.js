@@ -167,7 +167,7 @@
     h.append("circle").attr("class", "ring-i").attr("r", hubR - 7).style("stroke", colorOf(focus));
     let px = clamp(hubR * 0.36, 16, 28), lines = wrapPx(focus.name, px, hubR * 1.55, 3);
     while (lines.length > 3 || Math.max(...lines.map(l => tw(l, px, 600))) > hubR * 1.7) { px -= 1; lines = wrapPx(focus.name, px, hubR * 1.55, 3); if (px < 11) break; }
-    const showCt = hubR >= 46, ctH = showCt ? 14 : 0, total = lines.length * px * 1.05 + ctH, y0 = -total / 2 + px * 0.8;
+    const showCt = hubR >= 46 && focus.count > 0, ctH = showCt ? 14 : 0, total = lines.length * px * 1.05 + ctH, y0 = -total / 2 + px * 0.8;
     const t = h.append("text").attr("class", "nm").style("font-size", px + "px");
     lines.forEach((l, i) => t.append("tspan").attr("x", 0).attr("y", y0 + i * px * 1.05).text(l));
     if (showCt) h.append("text").attr("class", "ct").attr("y", y0 + lines.length * px * 1.05 + 4).style("font-size", "9.5px")
@@ -252,7 +252,7 @@
     const blurb = n === ROOT ? "The map of what PERFECT teaches across the macrofinancial world. It grows with every video." : n.meta.blurb;
     if (blurb) h += `<p>${esc(blurb)}</p>`;
     const facts = [];
-    if (isGroup(n)) facts.push(`<span><b>${nf(n.count)}</b>${n.count === 1 ? "idea" : "ideas"}</span>`);
+    if (isGroup(n) && n.count) facts.push(`<span><b>${nf(n.count)}</b>${n.count === 1 ? "idea" : "ideas"}</span>`);
     if (isGroup(n) && n.children.length && n.kind !== "topic") facts.push(`<span><b>${n.children.length}</b>${CHILD[n.kind] || "items"}</span>`);
     if (n.cards) facts.push(`<span><b>${n.cards}</b>${n.cards === 1 ? "card" : "cards"}</span>`);
     if (facts.length) h += `<div class="rule"></div><div class="facts">${facts.join("")}</div>`;
@@ -273,7 +273,8 @@
       const vids = (PRIVATE ? VIDEOS : aired).slice().reverse().slice(0, 10);
       if (vids.length) h += `<div><h3>${PRIVATE ? "Videos in the studio" : "Latest videos"}</h3>${vids.map(vidHtml).join("")}</div>`;
     }
-    if (isGroup(focus) && !sel) h += `<div class="rule"></div><div class="list">${focus.children.map(rowBtn).join("")}</div>`;
+    if (isGroup(focus) && !sel && focus.children.length) h += `<div class="rule"></div><div class="list">${focus.children.map(rowBtn).join("")}</div>`;
+    else if (isGroup(focus) && !sel) h += `<div class="rule"></div><p>Nothing here yet. This branch fills as the videos reach it.</p>`;
     $("panel").innerHTML = h;
   }
 

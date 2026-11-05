@@ -1,6 +1,6 @@
 {
   "mode": "public",
-  "generated": "2026-11-05T16:49:59+00:00",
+  "generated": "2026-11-05T17:52:19+00:00",
   "pillars": [
     {"key": "programming", "color": "#8FA6BC"},
     {"key": "economics", "color": "#9DAA78"},
@@ -10,7 +10,16 @@
     {"key": "catalog", "color": "#A88AAE"},
     {"key": "trading", "color": "#D4956A"}
   ],
-  "nodes": [],
+  "nodes": [
+    {"i": 1, "k": "perfect", "t": "PERFECT", "kind": "root", "p": null, "u": null, "s": "published", "pub": "2026-11-05T17:52:18+00:00", "m": {"tagline": "Quantitative finance, seen from the whole macrofinancial world."}},
+    {"i": 2, "k": "programming", "t": "Programming", "kind": "pillar", "p": "programming", "u": 1, "s": "published", "pub": "2026-11-05T17:52:18+00:00", "m": {"letter": "P", "blurb": "Code, data and machines."}},
+    {"i": 6, "k": "economics", "t": "Economics", "kind": "pillar", "p": "economics", "u": 1, "s": "published", "pub": "2026-11-05T17:52:18+00:00", "m": {"letter": "E", "blurb": "How economies, markets and people behave."}},
+    {"i": 11, "k": "review", "t": "Review", "kind": "pillar", "p": "review", "u": 1, "s": "published", "pub": "2026-11-05T17:52:18+00:00", "m": {"letter": "R", "blurb": "Reviewing the macrofinancial world: news, companies and papers."}},
+    {"i": 15, "k": "finance", "t": "Finance", "kind": "pillar", "p": "finance", "u": 1, "s": "published", "pub": "2026-11-05T17:52:18+00:00", "m": {"letter": "F", "blurb": "How money is raised, priced, invested and protected."}},
+    {"i": 35, "k": "econometrics", "t": "Econometrics", "kind": "pillar", "p": "econometrics", "u": 1, "s": "published", "pub": "2026-11-05T17:52:18+00:00", "m": {"letter": "E", "blurb": "Mathematics, probability, statistics and the rest of the quantitative toolkit."}},
+    {"i": 50, "k": "catalog", "t": "Catalog", "kind": "pillar", "p": "catalog", "u": 1, "s": "published", "pub": "2026-11-05T17:52:18+00:00", "m": {"letter": "C", "blurb": "History, people, institutions, tools and skills."}},
+    {"i": 55, "k": "trading", "t": "Trading", "kind": "pillar", "p": "trading", "u": 1, "s": "published", "pub": "2026-11-05T17:52:18+00:00", "m": {"letter": "T", "blurb": "Quantitative trading in practice."}}
+  ],
   "links": [],
   "videos": [],
   "lectures": [],
