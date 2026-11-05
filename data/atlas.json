@@ -1,0 +1,18 @@
+{
+  "mode": "public",
+  "generated": "2026-11-05T16:49:59+00:00",
+  "pillars": [
+    {"key": "programming", "color": "#8FA6BC"},
+    {"key": "economics", "color": "#9DAA78"},
+    {"key": "review", "color": "#B97272"},
+    {"key": "finance", "color": "#C8AE82"},
+    {"key": "econometrics", "color": "#7FAFA0"},
+    {"key": "catalog", "color": "#A88AAE"},
+    {"key": "trading", "color": "#D4956A"}
+  ],
+  "nodes": [],
+  "links": [],
+  "videos": [],
+  "lectures": [],
+  "lecture_nodes": []
+}

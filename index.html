@@ -2,43 +2,89 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PERFECT Atlas</title>
-<meta name="description" content="The map of what PERFECT has taught so far: programming, economics, finance, econometrics and trading. It grows with every video.">
+<meta name="description" content="The map of what PERFECT teaches across the macrofinancial world. It grows with every video.">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@500&display=swap">
-<style>
-  :root { --navy: #172A3A; --navy-2: #1E3549; --line: #33506A; --ivory: #F5F1E8; --muted: #CFC9BC; --camel: #C8AE82; }
-  * { box-sizing: border-box; }
-  html, body { height: 100%; }
-  body { margin: 0; background: var(--navy); color: var(--ivory); font: 17px/1.6 "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
-         display: grid; place-items: center; padding: 32px 16px; }
-  main { max-width: 760px; text-align: center; }
-  .mark { font: 600 clamp(44px, 9vw, 72px)/1 "EB Garamond", Garamond, Georgia, serif; letter-spacing: .14em; }
-  .sub { font: 500 min(13px, 1.75vw)/1.6 "IBM Plex Mono", Consolas, monospace; letter-spacing: .04em; color: var(--camel); margin-top: 14px; white-space: nowrap; }
-  .logo { display: block; width: 112px; height: 112px; margin: 0 auto 26px; }
-  .rule { width: 72px; height: 1px; background: var(--line); margin: 40px auto 32px; }
-  h1 { font: 500 28px/1.25 "EB Garamond", Georgia, serif; margin: 0 0 10px; }
-  p { color: var(--muted); margin: 0 auto 10px; max-width: 52ch; }
-  nav { margin-top: 28px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  a { color: var(--ivory); text-decoration: none; border: 1px solid var(--line); border-radius: 20px; padding: 7px 16px; font-size: 15px; }
-  a:hover { border-color: var(--camel); }
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/css/atlas.css">
 </head>
 <body>
-<main>
-  <img class="logo" src="assets/logo.png" alt="PERFECT logo" width="112" height="112">
-  <div class="mark">PERFECT</div>
-  <div class="sub">PROGRAMMING · ECONOMICS · REVIEW · FINANCE · ECONOMETRICS · CATALOG · TRADING</div>
-  <div class="rule" aria-hidden="true"></div>
-  <h1>The atlas starts empty.</h1>
-  <p>This is the map of what PERFECT teaches: concepts, papers, companies, history and tools across the macrofinancial world.</p>
-  <p>Every video adds its ideas here. The first branches appear with the first videos.</p>
-  <nav>
-    <a href="https://www.youtube.com/@perfect-quant">YouTube</a>
-    <a href="https://github.com/Arthur-Faugeron/PERFECT-Lectures">The Faugeron Lectures</a>
-  </nav>
-</main>
+<div class="app">
+  <header>
+    <a class="brand" href="./" title="PERFECT Atlas, home">
+      <img src="assets/logo.png" alt="" width="36" height="36">
+      <span class="word">PERFECT <em>Atlas</em></span>
+    </a>
+    <span class="acr" aria-label="Programming, Economics, Review, Finance, Econometrics, Catalog, Trading">PROGRAMMING · ECONOMICS · REVIEW · FINANCE · ECONOMETRICS · CATALOG · TRADING</span>
+    <span class="mode" id="mode" hidden>Private</span>
+    <div class="search">
+      <input id="q" type="search" placeholder="Search the atlas" autocomplete="off" aria-label="Search the atlas">
+      <div id="results" hidden></div>
+    </div>
+    <div class="tabs" role="group" aria-label="View">
+      <button id="tMap" aria-pressed="true">Map</button>
+      <button id="tAz" aria-pressed="false">A to Z</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <div id="stage">
+      <svg id="svg" aria-label="Map of the atlas"></svg>
+      <div id="grid" hidden></div>
+      <div class="over crumbs" id="crumbs"></div>
+      <div class="over ctrl" id="ctrl">
+        <button id="zIn" title="Zoom in" aria-label="Zoom in">+</button>
+        <button id="zOut" title="Zoom out" aria-label="Zoom out">&minus;</button>
+        <button id="zFit" title="Fit to window" aria-label="Fit to window">&#8634;</button>
+      </div>
+      <div class="over legend" id="legend"></div>
+    </div>
+    <aside id="panel"></aside>
+    <section id="az" hidden></section>
+
+    <section id="empty" hidden>
+      <img src="assets/logo.png" alt="PERFECT logo" width="112" height="112">
+      <div class="mark">PERFECT</div>
+      <div class="sub">PROGRAMMING · ECONOMICS · REVIEW · FINANCE · ECONOMETRICS · CATALOG · TRADING</div>
+      <div class="rule" aria-hidden="true"></div>
+      <h1>The atlas starts empty.</h1>
+      <p>This is the map of what PERFECT teaches: concepts, papers, companies, history and tools across the macrofinancial world.</p>
+      <p>Every video adds its ideas here. The first branches appear with the first videos.</p>
+      <nav>
+        <a href="https://www.youtube.com/@perfect-quant">YouTube</a>
+        <a href="https://github.com/Arthur-Faugeron/PERFECT-Lectures">The Faugeron Lectures</a>
+      </nav>
+    </section>
+
+    <div id="scrim" hidden></div>
+    <section id="reader" hidden aria-label="Lecture card" role="dialog" aria-modal="true">
+      <div class="reader-bar">
+        <div class="reader-where" id="rWhere"></div>
+        <div class="reader-actions">
+          <button class="btn" id="rMd" title="Download the card source as Markdown">.md</button>
+          <button class="btn" id="rHtml" title="Download a self-contained page you can open offline">.html</button>
+          <button class="btn" id="rPrint" title="Print or save as PDF" hidden>Print</button>
+          <button class="btn" id="rLink" title="Copy a link to this card">Copy link</button>
+          <button class="btn close" id="rClose" aria-label="Close card">Close</button>
+        </div>
+      </div>
+      <div class="reader-scroll" id="rScroll"><article class="doc" id="doc"></article></div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+</div>
+
+<script>
+window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] }, svg: { fontCache: "local" }, startup: { typeset: false } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="assets/js/widgets.js"></script>
+<script src="assets/js/card.js"></script>
+<script src="assets/js/atlas.js"></script>
 </body>
 </html>
